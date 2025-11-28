@@ -13,10 +13,12 @@ class Page extends Model
         'title',
         'slug',
         'description',
+        'content',
         'is_active',
     ];
 
     protected $casts = [
+        'content' => 'array',
         'is_active' => 'boolean',
     ];
 }

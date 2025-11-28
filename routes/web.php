@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', function () {
-    return view('home');
-});
-
-Route::get('/example', function () {
-    return view('example');
-});
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/{slug}', [PageController::class, 'show'])->name('page.show');

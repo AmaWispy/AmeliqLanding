@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Salon Template</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4A373;
+            --text: #333;
+            --bg: #FAFAFA;
+            --white: #fff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color: var(--white); text-decoration: none; border-radius: 30px; transition: 0.3s; border: none; cursor: pointer; font-size: 1rem; }
+        .btn:hover { background: #c49260; }
+        
+        /* Header */
+        header { padding: 20px 0; position: absolute; width: 100%; z-index: 10; }
+        .nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+        
+        /* Hero */
+        .hero { height: 100vh; background: url('img-beauty/1.png') no-repeat center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.8); }
+        .hero-content { position: relative; z-index: 1; max-width: 600px; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: #2c2c2c; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; color: #555; }
+
+        /* Services */
+        .section { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: var(--white); padding: 40px; text-align: center; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .service-card:hover { transform: translateY(-10px); }
+        .service-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        
+        /* About */
+        .about { background: var(--white); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-img { width: 100%; border-radius: 10px; }
+        
+        /* Gallery */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .gallery-item { aspect-ratio: 4/5; overflow: hidden; border-radius: 10px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* Masters */
+        .masters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .master-card { text-align: center; }
+        .master-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
+        
+        /* Pricing */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .pricing-card { background: var(--white); padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; }
+        .price { font-size: 2rem; color: var(--primary); font-weight: 700; margin: 15px 0; }
+        .pricing-card ul { list-style: none; margin-bottom: 20px; text-align: left; }
+        .pricing-card li { margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        
+        /* Testimonials */
+        .testimonials { background: var(--white); }
+        .testimonial-card { background: #f9f9f9; padding: 30px; border-radius: 10px; margin-bottom: 20px; font-style: italic; }
+        .client-name { font-weight: 700; margin-top: 15px; font-style: normal; color: var(--primary); }
+        
+        /* Promo */
+        .promo { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img-beauty/10.png') center/cover; color: var(--white); text-align: center; }
+        .promo h2 { color: var(--white); }
+        
+        /* FAQ */
+        .faq-item { background: var(--white); margin-bottom: 10px; border-radius: 5px; overflow: hidden; }
+        .faq-question { padding: 20px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; }
+        .faq-answer { padding: 0 20px 20px; display: none; color: #555; }
+        .faq-item.active .faq-answer { display: block; }
+        
+        /* Footer */
+        footer { background: #1a1a1a; color: #999; padding: 40px 0; text-align: center; font-size: 0.9rem; }
+        footer a { color: var(--primary); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .about-content, .masters-grid, .gallery-grid, .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="nav">
+                <div class="logo">ELEGANCE</div>
+                <a href="#contact" class="btn">Записаться</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Подчеркните свою естественную красоту</h1>
+            <p>Премиальный уход и профессиональные стилисты в центре города</p>
+            <a href="#services" class="btn">Наши услуги</a>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Услуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-cut service-icon"></i>
+                    <h3>Стрижки и укладки</h3>
+                    <p>От классики до креатива. Наши мастера подберут идеальный образ.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-paint-brush service-icon"></i>
+                    <h3>Окрашивание</h3>
+                    <p>Сложные техники окрашивания, AirTouch, балаяж и тонирование.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-magic service-icon"></i>
+                    <h3>Уход за волосами</h3>
+                    <p>Восстановление структуры, ботокс и кератиновое выпрямление.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section about">
+        <div class="container">
+            <div class="about-content">
+                <img src="img-beauty/2.png" alt="Salon" class="about-img">
+                <div>
+                    <h2 class="section-title" style="text-align: left;">О нас</h2>
+                    <p>Мы создали пространство, где красота встречается с комфортом. ELEGANCE — это не просто салон, это место вашей силы и преображения. Мы используем только премиальную косметику и стерильные инструменты.</p>
+                    <br>
+                    <p>Наши мастера регулярно проходят обучение в Европе и знают все о современных трендах.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gallery-grid">
+        <div class="gallery-item"><img src="img-beauty/3.png" alt=""></div>
+        <div class="gallery-item"><img src="img-beauty/4.png" alt=""></div>
+        <div class="gallery-item"><img src="img-beauty/5.png" alt=""></div>
+        <div class="gallery-item"><img src="img-beauty/6.png" alt=""></div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Наши мастера</h2>
+            <div class="masters-grid">
+                <div class="master-card">
+                    <img src="img-beauty/7.png" alt="" class="master-img">
+                    <h3>Анна Иванова</h3>
+                    <p>Топ-стилист</p>
+                </div>
+                <div class="master-card">
+                    <img src="img-beauty/8.png" alt="" class="master-img">
+                    <h3>Елена Петрова</h3>
+                    <p>Колорист</p>
+                </div>
+                <div class="master-card">
+                    <img src="img-beauty/9.png" alt="" class="master-img">
+                    <h3>Мария Сидорова</h3>
+                    <p>Визажист</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">Отзывы клиентов</h2>
+            <div class="services-grid">
+                <div class="testimonial-card">
+                    <p>"Потрясающее место! Мастера — настоящие профессионалы. Сделали именно ту стрижку, о которой я мечтала. Атмосфера в салоне очень уютная и расслабляющая."</p>
+                    <div class="client-name">Екатерина М.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Хожу сюда на окрашивание уже год. Волосы после процедур живые и блестящие. Очень нравится, что используют качественную косметику. Рекомендую!"</p>
+                    <div class="client-name">Ольга С.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Лучший сервис в городе. Всегда предложат кофе, учтут все пожелания. Маникюр держится идеально. Спасибо за вашу работу!"</p>
+                    <div class="client-name">Марина К.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Наши цены</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Стрижки</h3>
+                    <div class="price">от 1500₽</div>
+                    <ul>
+                        <li>Женская стрижка</li>
+                        <li>Мытье головы + массаж</li>
+                        <li>Легкая укладка</li>
+                        <li>Консультация стилиста</li>
+                    </ul>
+                    <a href="#contact" class="btn">Записаться</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Окрашивание</h3>
+                    <div class="price">от 3500₽</div>
+                    <ul>
+                        <li>Окрашивание в один тон</li>
+                        <li>Тонирование</li>
+                        <li>Защитный уход</li>
+                        <li>Укладка локонами</li>
+                    </ul>
+                    <a href="#contact" class="btn">Записаться</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Комплекс</h3>
+                    <div class="price">от 5000₽</div>
+                    <ul>
+                        <li>Стрижка + Окрашивание</li>
+                        <li>Уход "Счастье для волос"</li>
+                        <li>Коррекция бровей</li>
+                        <li>Укладка в подарок</li>
+                    </ul>
+                    <a href="#contact" class="btn">Записаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section promo">
+        <div class="container">
+            <h2 class="section-title">Скидка 20% на первый визит</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">Запишитесь онлайн прямо сейчас и получите скидку на любую услугу</p>
+            <a href="#contact" class="btn">Получить скидку</a>
+        </div>
+    </section>
+
+    <section class="section" style="background: #f4f4f4;">
+        <div class="container">
+            <h2 class="section-title">Частые вопросы</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item">
+                    <div class="faq-question">Какую косметику вы используете? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Мы работаем только с премиальными брендами: Davines, Kevin.Murphy, L'Oreal Professionnel. Вся продукция сертифицирована и безопасна.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Как записаться к топ-стилисту? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Вы можете выбрать категорию мастера при онлайн-записи или попросить администратора записать вас именно к топ-стилисту по телефону.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Есть ли у вас подарочные сертификаты? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Да, у нас есть подарочные сертификаты на любую сумму или конкретную услугу. Их можно приобрести у администратора.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Записаться онлайн</h2>
+            <form class="contact-form" style="max-width: 500px; margin: 0 auto;">
+                <input type="text" placeholder="Ваше имя" required style="width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-radius: 30px; font-family: inherit; font-size: 1rem;">
+                <input type="tel" placeholder="Ваш телефон" required style="width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-radius: 30px; font-family: inherit; font-size: 1rem;">
+                <select style="width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-radius: 30px; font-family: inherit; font-size: 1rem; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url(&quot;data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e&quot;); background-repeat: no-repeat; background-position: right 15px center; background-size: 16px;">
+                    <option value="" disabled selected>Выберите услугу</option>
+                    <option>Стрижка</option>
+                    <option>Окрашивание</option>
+                    <option>Маникюр</option>
+                </select>
+                <button type="submit" class="btn" style="width: 100%;">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ELEGANCE Beauty Salon. Все права защищены.</p>
+            <p style="margin-top: 10px;">Разработано в <a href="https://ameliq.ru" target="_blank">Ameliq</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
