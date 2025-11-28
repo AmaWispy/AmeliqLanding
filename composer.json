@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.16",
         "bezhansalleh/filament-language-switch": "^3.1",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
