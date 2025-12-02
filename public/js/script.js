@@ -49,11 +49,42 @@ const auditForm = document.getElementById('auditForm');
 if (auditForm) {
     auditForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(auditForm);
-        const data = Object.fromEntries(formData);
-        console.log('Audit Form Data:', data);
-        alert('Спасибо! Мы проведем аудит вашего сайта и свяжемся с вами в течение 24 часов.');
-        auditForm.reset();
+        
+        // Валидация
+        const emailInput = auditForm.querySelector('input[type="email"]');
+        const phoneInput = auditForm.querySelector('input[type="tel"]');
+        
+        if (emailInput && emailInput.value && !validateEmail(emailInput.value)) return;
+        if (phoneInput && phoneInput.value && !validatePhone(phoneInput.value)) return;
+
+        const submitBtn = auditForm.querySelector('button[type="submit"]');
+        if(submitBtn) submitBtn.disabled = true;
+
+        try {
+            const formData = new FormData(auditForm);
+            
+            const response = await fetch('/lead/submit', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                },
+                body: formData
+            });
+            
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Спасибо! Мы проведем аудит вашего сайта и свяжемся с вами в течение 24 часов.');
+                auditForm.reset();
+            } else {
+                alert('Ошибка при отправке формы. Попробуйте позже.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Произошла ошибка. Пожалуйста, свяжитесь с нами по телефону.');
+        } finally {
+            if(submitBtn) submitBtn.disabled = false;
+        }
     });
 }
 
@@ -95,22 +126,47 @@ if (requestModal) {
 if (universalForm) {
     universalForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(universalForm);
-        const data = Object.fromEntries(formData);
-        
-        console.log('Universal Request:', data);
-        
-        alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-        if (requestModal) requestModal.classList.remove('active');
-        universalForm.reset();
+
+        const phoneInput = universalForm.querySelector('input[type="tel"]');
+        if (phoneInput && phoneInput.value && !validatePhone(phoneInput.value)) return;
+
+        const submitBtn = universalForm.querySelector('button[type="submit"]');
+        if(submitBtn) submitBtn.disabled = true;
+
+        try {
+            const formData = new FormData(universalForm);
+            
+            const response = await fetch('/lead/submit', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                },
+                body: formData
+            });
+            
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+                if (requestModal) requestModal.classList.remove('active');
+                universalForm.reset();
+            } else {
+                alert('Ошибка при отправке формы. Попробуйте позже.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Произошла ошибка. Пожалуйста, свяжитесь с нами по телефону.');
+        } finally {
+            if(submitBtn) submitBtn.disabled = false;
+        }
     });
 }
 
 
 // Exit Intent Popup & Gift Logic
 const exitPopup = document.getElementById('exitPopup');
-const popupClose = document.querySelector('.popup-close');
-const popupForm = document.querySelector('.popup-form'); // Selects the form inside exitPopup
+const popupClose = exitPopup ? exitPopup.querySelector('.popup-close') : null;
+const popupForm = exitPopup ? exitPopup.querySelector('.popup-form') : null; // Selects the form inside exitPopup
 let exitIntentShown = false;
 
 // Show popup logic
@@ -164,14 +220,42 @@ if (popupForm && !popupForm.id.includes('universalForm')) { // Ensure we don't s
         const emailInput = popupForm.querySelector('input[type="email"]');
         
         if (emailInput) {
-            console.log('Gift Request Email:', emailInput.value);
+            if (emailInput.value && !validateEmail(emailInput.value)) return;
             
-            alert('Спасибо! Чек-лист сейчас откроется.');
-            exitPopup.classList.remove('active');
-            popupForm.reset();
-            
-            // REDIRECT TO YANDEX DISK
-            window.location.href = 'https://disk.yandex.ru/i/jOiuf0M1pprSEA';
+            const submitBtn = popupForm.querySelector('button[type="submit"]');
+            if(submitBtn) submitBtn.disabled = true;
+
+            try {
+                // Create FormData manually or from form if inputs have names
+                const formData = new FormData(popupForm);
+                if(!formData.has('source')) formData.append('source', 'Exit Intent (Lead Magnet)');
+                if(!formData.has('email')) formData.append('email', emailInput.value);
+                
+                // Send data but don't wait strictly for success to redirect (optional)
+                fetch('/lead/submit', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: formData
+                });
+
+                alert('Спасибо! Чек-лист сейчас откроется.');
+                exitPopup.classList.remove('active');
+                popupForm.reset();
+                
+                // REDIRECT TO YANDEX DISK (Dynamic or Fallback)
+                const leadMagnetLink = exitPopup.getAttribute('data-lead-magnet-link') || 'https://disk.yandex.ru/i/jOiuf0M1pprSEA';
+                window.location.href = leadMagnetLink;
+
+            } catch (error) {
+                console.error(error);
+                // Fallback redirect anyway
+                const leadMagnetLink = exitPopup.getAttribute('data-lead-magnet-link') || 'https://disk.yandex.ru/i/jOiuf0M1pprSEA';
+                window.location.href = leadMagnetLink;
+            } finally {
+                if(submitBtn) submitBtn.disabled = false;
+            }
         }
     });
 }
@@ -334,6 +418,19 @@ console.log('%c👋 Привет от команды Ameliq!', 'font-size: 20px;
 console.log('%cИнтересуешься кодом? Нам нравятся любопытные люди!', 'font-size: 14px; color: #7c3aed;');
 console.log('%cСвяжись с нами: info@ameliq.ru', 'font-size: 14px; color: #e0e0e0;');
 
+// Safe Links Decoding
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-safe-text]').forEach(el => {
+        try {
+            // Safe decode for UTF-8
+            const decoded = decodeURIComponent(escape(window.atob(el.dataset.safeText)));
+            el.textContent = decoded;
+        } catch (e) {
+            console.error('Error decoding safe text', e);
+        }
+    });
+});
+
 // Cookie Consent Logic
 document.addEventListener('DOMContentLoaded', function() {
     const cookieBanner = document.getElementById('cookieBanner');
@@ -341,10 +438,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check if cookie accepted
     if (cookieBanner && !localStorage.getItem('cookieAccepted')) {
-        // Show banner after 2 seconds
+        // Force display block immediately to test visibility
+        cookieBanner.style.display = 'block'; 
+        
+        // Add active class after small delay for animation
         setTimeout(() => {
             cookieBanner.classList.add('active');
-        }, 2000);
+        }, 100);
     }
     
     // Accept cookie
@@ -352,6 +452,10 @@ document.addEventListener('DOMContentLoaded', function() {
         acceptCookieBtn.addEventListener('click', () => {
             localStorage.setItem('cookieAccepted', 'true');
             cookieBanner.classList.remove('active');
+            // Also hide after transition
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 500);
         });
     }
     

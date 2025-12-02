@@ -74,6 +74,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('hero')
                                     ->label('Hero (Главный экран)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\RichEditor::make('title')
                                             ->label('Заголовок')
                                             ->required()
@@ -90,6 +93,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('about')
                                     ->label('О нас (Manifesto)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок секции'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -116,6 +122,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('audit')
                                     ->label('Аудит (Форма заявки)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -136,6 +145,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('process')
                                     ->label('Процесс работы')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -160,6 +172,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('guarantees')
                                     ->label('Гарантии')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -189,6 +204,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('facts')
                                     ->label('Факты (Цифры)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\Repeater::make('items')
                                             ->label('Факты')
                                             ->schema([
@@ -207,6 +225,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('cozy_cta')
                                     ->label('Cozy CTA (Telegram)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -221,6 +242,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('target_audience')
                                     ->label('Целевая аудитория')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -246,6 +270,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('advantages')
                                     ->label('Преимущества (Сетка)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -268,6 +295,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('portfolio')
                                     ->label('Портфолио')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -282,6 +312,7 @@ class PageResource extends Resource
                                                 Forms\Components\FileUpload::make('image')
                                                     ->label('Скриншот')
                                                     ->image()
+                                                    ->disk('public')
                                                     ->directory('page-blocks/portfolio'),
                                                 Forms\Components\TextInput::make('url')
                                                     ->label('Ссылка на кейс (iframe url)'),
@@ -294,6 +325,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('testimonials')
                                     ->label('Отзывы')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')
@@ -328,6 +362,9 @@ class PageResource extends Resource
                                 Forms\Components\Builder\Block::make('faq')
                                     ->label('FAQ (Вопросы)')
                                     ->schema([
+                                        Forms\Components\Toggle::make('is_visible')
+                                            ->label('Показывать блок')
+                                            ->default(true),
                                         Forms\Components\TextInput::make('title')
                                             ->label('Заголовок'),
                                         Forms\Components\Textarea::make('subtitle')

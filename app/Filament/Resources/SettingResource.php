@@ -102,7 +102,10 @@ class SettingResource extends Resource
                                 Forms\Components\TextInput::make('phone')
                                     ->label('Телефон')
                                     ->tel()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->regex('/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/')
+                                    ->placeholder('+7 (999) 123-45-67')
+                                    ->helperText('Формат: +7 (999) 123-45-67'),
                                     
                                 Forms\Components\Textarea::make('address')
                                     ->label('Адрес')
@@ -191,6 +194,72 @@ class SettingResource extends Resource
                                     ->helperText('Правила для поисковых роботов')
                                     ->rows(10)
                                     ->columnSpanFull(),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('Модальные окна')
+                            ->icon('heroicon-o-window')
+                            ->schema([
+                                Forms\Components\Section::make('Окно заявки (Универсальное)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('popup_request_title')
+                                            ->label('Заголовок')
+                                            ->placeholder('Обсудить проект'),
+                                        Forms\Components\Textarea::make('popup_request_subtitle')
+                                            ->label('Подзаголовок')
+                                            ->placeholder('Оставьте контакты, и мы свяжемся с вами в течение 15 минут')
+                                            ->rows(2),
+                                        Forms\Components\TextInput::make('popup_request_button_text')
+                                            ->label('Текст кнопки')
+                                            ->placeholder('Жду звонка'),
+                                    ]),
+                                
+                                Forms\Components\Section::make('Окно при уходе (Exit Intent)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('popup_exit_title')
+                                            ->label('Заголовок')
+                                            ->placeholder('Уже уходите?'),
+                                        Forms\Components\Textarea::make('popup_exit_subtitle')
+                                            ->label('Подзаголовок')
+                                            ->placeholder('Получите чек-лист "10 шагов к продающему лендингу" бесплатно!')
+                                            ->rows(2),
+                                        Forms\Components\TextInput::make('popup_exit_button_text')
+                                            ->label('Текст кнопки')
+                                            ->placeholder('Получить подарок'),
+                                        Forms\Components\TextInput::make('popup_exit_link')
+                                            ->label('Ссылка на подарок (Lead Magnet)')
+                                            ->placeholder('https://disk.yandex.ru/...')
+                                            ->url()
+                                            ->columnSpanFull(),
+                                    ]),
+                            ]),
+                        
+                        Forms\Components\Tabs\Tab::make('Уведомления (Заявки)')
+                            ->icon('heroicon-o-bell')
+                            ->schema([
+                                Forms\Components\Section::make('Email уведомления')
+                                    ->description('Настройте отправку заявок на почту. SMTP настройки берутся из .env файла.')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('lead_email')
+                                            ->label('Email для получения заявок')
+                                            ->email()
+                                            ->placeholder('admin@example.com')
+                                            ->helperText('Оставьте пустым, если не хотите получать заявки на почту'),
+                                    ]),
+                                    
+                                Forms\Components\Section::make('Telegram уведомления')
+                                    ->description('Создайте бота в @BotFather, получите токен и узнайте свой ID (например через @userinfobot).')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('telegram_bot_token')
+                                            ->label('Bot Token')
+                                            ->password()
+                                            ->revealable()
+                                            ->placeholder('123456789:ABCdefGw...'),
+                                            
+                                        Forms\Components\TextInput::make('telegram_chat_id')
+                                            ->label('Chat IDs')
+                                            ->placeholder('123456789')
+                                            ->helperText('ID чата или пользователя. Можно указать несколько через запятую.'),
+                                    ]),
                             ]),
                     ])
                     ->columnSpanFull(),

@@ -31,6 +31,16 @@ class Setting extends Model
         'head_scripts',
         'body_scripts',
         'robots_txt',
+        'popup_request_title',
+        'popup_request_subtitle',
+        'popup_request_button_text',
+        'popup_exit_title',
+        'popup_exit_subtitle',
+        'popup_exit_button_text',
+        'popup_exit_link',
+        'lead_email',
+        'telegram_bot_token',
+        'telegram_chat_id',
     ];
 
     /**
