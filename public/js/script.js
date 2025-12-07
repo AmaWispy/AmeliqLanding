@@ -74,7 +74,7 @@ if (auditForm) {
             const result = await response.json();
 
             if (result.success) {
-                alert('Спасибо! Мы проведем аудит вашего сайта и свяжемся с вами в течение 24 часов.');
+                alert('Спасибо! Мы свяжемся с вами для уточнения данных в ближайшее время.');
                 auditForm.reset();
             } else {
                 alert('Ошибка при отправке формы. Попробуйте позже.');
@@ -382,7 +382,12 @@ document.querySelectorAll('input[type="tel"]').forEach(input => {
 });
 
 const validateEmail = (email) => String(email).toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-const validatePhone = (phone) => String(phone).match(/^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/);
+const validatePhone = (phone) => {
+    // Разрешаем только цифры, +, (, ), -, пробелы
+    const cleaned = String(phone).replace(/[^\d+]/g, '');
+    // Минимальная длина для номера (например, +79991112233 = 12 символов)
+    return cleaned.length >= 10;
+};
 
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', (e) => {

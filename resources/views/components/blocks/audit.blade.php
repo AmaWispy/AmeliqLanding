@@ -22,6 +22,8 @@
             </div>
             <div class="audit-form-container">
                 <form class="audit-form" id="auditForm">
+                    @csrf
+                    <input type="hidden" name="source" value="Audit Form Section">
                     <h3>Получить бесплатный аудит</h3>
                     <div class="form-group">
                         <input type="text" id="audit-name" name="name" placeholder="Ваше имя" required>

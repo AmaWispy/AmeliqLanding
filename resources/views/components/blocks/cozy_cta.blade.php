@@ -10,7 +10,11 @@
                 {{ $data['subtitle'] ?? '' }}
             </p>
             <div class="cozy-cta-btn">
-                <a href="{{ $data['button_link'] ?? '#' }}" target="_blank" class="btn btn-outline btn-large">
+                <a href="{{ $data['button_link'] ?? '#' }}" 
+                   class="btn btn-outline btn-large js-open-modal" 
+                   data-source="Bottom Contact Section (Cozy CTA)"
+                   @if(!empty($data['button_link']) && $data['button_link'] !== '#') target="_blank" @endif
+                >
                     <i class="fab fa-telegram"></i>
                     {{ $data['button_text'] ?? 'Написать в Telegram' }}
                 </a>
