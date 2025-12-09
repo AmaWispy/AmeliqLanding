@@ -60,7 +60,25 @@ class LeadController extends Controller
             );
         }
 
-        return response()->json(['success' => true, 'message' => 'Заявка успешно отправлена!']);
+        $response = ['success' => true, 'message' => 'Заявка успешно отправлена!'];
+
+        // Логика для редиректа на лид-магнит (подарок)
+        // Проверяем источник заявки: Exit Intent или Cozy CTA (который по умолчанию предлагает подарок)
+        $source = $data['source'] ?? '';
+        $isLeadMagnet = false;
+
+        if (str_contains($source, 'Exit Intent') || 
+            str_contains($source, 'Lead Magnet') || 
+            str_contains($source, 'Cozy CTA')) {
+            $isLeadMagnet = true;
+        }
+
+        if ($isLeadMagnet) {
+            // Ссылка из настроек или дефолтная новая ссылка
+            $response['redirect_url'] = $settings->popup_exit_link ?? 'https://disk.yandex.ru/d/k87amsGmOXNN7Q';
+        }
+
+        return response()->json($response);
     }
 }
 

@@ -72,7 +72,7 @@ class SettingResource extends Resource
                                     ->helperText('Иконка сайта (рекомендуется 32x32px или 64x64px, .ico, .png)')
                                     ->image()
                                     ->directory('settings')
-                                    ->acceptedFileTypes(['image/x-icon', 'image/png', 'image/jpeg'])
+                                    ->acceptedFileTypes(['image/x-icon', 'image/vnd.microsoft.icon', 'image/ico', 'image/png', 'image/jpeg'])
                                     ->columnSpanFull(),
                                     
                                 Forms\Components\FileUpload::make('logo')
@@ -227,7 +227,8 @@ class SettingResource extends Resource
                                             ->placeholder('Получить подарок'),
                                         Forms\Components\TextInput::make('popup_exit_link')
                                             ->label('Ссылка на подарок (Lead Magnet)')
-                                            ->placeholder('https://disk.yandex.ru/...')
+                                            ->helperText('Ссылка на файл (Яндекс.Диск и т.д.). Пользователь будет перенаправлен на неё после заполнения формы.')
+                                            ->placeholder('https://disk.yandex.ru/d/k87amsGmOXNN7Q')
                                             ->url()
                                             ->columnSpanFull(),
                                     ]),

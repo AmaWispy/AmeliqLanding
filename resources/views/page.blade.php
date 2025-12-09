@@ -12,6 +12,12 @@
         @endif
     </title>
     
+    <!-- Favicon -->
+    @if(!empty($settings->favicon))
+        <link rel="icon" type="image/x-icon" href="{{ \Illuminate\Support\Facades\Storage::url($settings->favicon) }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ \Illuminate\Support\Facades\Storage::url($settings->favicon) }}">
+    @endif
+    
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -82,7 +88,7 @@
             <div class="header-content">
                 <div class="logo">
                     @if(!empty($settings->logo))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($settings->logo) }}" alt="{{ $settings->site_name ?? 'Ameliq' }}" style="max-height: 50px;">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($settings->logo) }}" alt="{{ $settings->site_name ?? 'Ameliq' }}" style="max-height: 70px;">
                     @else
                         <h2>{{ $settings->site_name ?? 'Ameliq' }}</h2>
                     @endif
@@ -159,7 +165,7 @@
     </div>
 
     <!-- Exit Intent Popup -->
-    <div id="exitPopup" class="exit-popup" data-lead-magnet-link="{{ $settings->popup_exit_link ?? 'https://disk.yandex.ru/i/jOiuf0M1pprSEA' }}">
+    <div id="exitPopup" class="exit-popup">
         <div class="popup-content">
             <button class="popup-close">&times;</button>
             <h3>{{ $settings->popup_exit_title ?? 'Уже уходите?' }}</h3>

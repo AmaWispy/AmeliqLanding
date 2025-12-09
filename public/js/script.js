@@ -150,6 +150,11 @@ if (universalForm) {
                 alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
                 if (requestModal) requestModal.classList.remove('active');
                 universalForm.reset();
+                
+                // Redirect if backend provided a URL (e.g. for lead magnet)
+                if (result.redirect_url) {
+                    window.open(result.redirect_url, '_blank');
+                }
             } else {
                 alert('Ошибка при отправке формы. Попробуйте позже.');
             }
@@ -238,22 +243,31 @@ if (popupForm && !popupForm.id.includes('universalForm')) { // Ensure we don't s
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
                     },
                     body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Спасибо! Чек-лист сейчас откроется.');
+                        exitPopup.classList.remove('active');
+                        popupForm.reset();
+                        
+                        if (result.redirect_url) {
+                            window.location.href = result.redirect_url;
+                        }
+                    } else {
+                        alert('Ошибка при отправке формы. Попробуйте позже.');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Произошла ошибка. Пожалуйста, попробуйте еще раз.');
+                })
+                .finally(() => {
+                    if(submitBtn) submitBtn.disabled = false;
                 });
-
-                alert('Спасибо! Чек-лист сейчас откроется.');
-                exitPopup.classList.remove('active');
-                popupForm.reset();
-                
-                // REDIRECT TO YANDEX DISK (Dynamic or Fallback)
-                const leadMagnetLink = exitPopup.getAttribute('data-lead-magnet-link') || 'https://disk.yandex.ru/i/jOiuf0M1pprSEA';
-                window.location.href = leadMagnetLink;
 
             } catch (error) {
                 console.error(error);
-                // Fallback redirect anyway
-                const leadMagnetLink = exitPopup.getAttribute('data-lead-magnet-link') || 'https://disk.yandex.ru/i/jOiuf0M1pprSEA';
-                window.location.href = leadMagnetLink;
-            } finally {
                 if(submitBtn) submitBtn.disabled = false;
             }
         }

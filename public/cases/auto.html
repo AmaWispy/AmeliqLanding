@@ -106,19 +106,28 @@
             .benefits-grid { grid-template-columns: 1fr 1fr; }
             .contact-section { grid-template-columns: 1fr; }
             .contact-info { padding: 40px; }
+            .brands-grid { grid-template-columns: repeat(4, 1fr); }
         }
         
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .features-list { flex-direction: column; gap: 10px; }
+            .hero { height: auto; padding: 120px 0 60px; text-align: center; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 1rem; }
+            .features-list { flex-direction: column; gap: 15px; display: inline-flex; align-items: flex-start; text-align: left; }
             .benefits-grid { grid-template-columns: 1fr; }
+            .process-steps { flex-direction: column; gap: 30px; }
+            .process-steps::before { display: none; }
+            .brands-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            /* Fix for hero buttons on mobile */
+            .hero-content .btn { display: block; width: 100%; margin-left: 0 !important; margin-bottom: 15px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
+        <div class="container 123">
             <div class="nav">
                 <div class="logo">AUTO<span>FIX</span></div>
                 <div class="phone">

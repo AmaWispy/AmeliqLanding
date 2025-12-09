@@ -39,7 +39,7 @@
         /* Header */
         header { padding: 20px 0; position: absolute; width: 100%; z-index: 10; }
         .nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .logo { font-size: 2rem; font-weight: 800; color: var(--primary); }
         
         /* Hero */
         .hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); position: relative; overflow: hidden; }
@@ -128,6 +128,25 @@
             .audience-grid, .pricing-grid { grid-template-columns: 1fr; }
             .price-card.popular { transform: none; }
             .achievements { text-align: left; }
+        }
+
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .hero { padding: 120px 0 60px; min-height: auto; }
+            .hero-text h1 { font-size: 1.8rem; word-wrap: break-word; }
+            .hero-text p { margin: 0 auto 25px; }
+            .hero-img img { transform: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; }
+            .hero-badges { flex-direction: column; gap: 10px; align-items: center; width: 100%; }
+            .badge { width: 100%; justify-content: center; box-sizing: border-box; }
+            .btn { width: 100%; text-align: center; }
+            .achievements { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            
+            /* Reduce padding in cards */
+            .audience-card, .price-card, .review-card { padding: 25px 20px; }
+            
+            /* Header adjustments */
+            .nav { flex-wrap: wrap; justify-content: center; gap: 15px; }
         }
     </style>
 </head>
